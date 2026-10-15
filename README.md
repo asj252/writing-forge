@@ -11,6 +11,7 @@
 同一作者的其他 skill 仓库：
 
 - [persona-masks-cn](https://github.com/asj252/persona-masks-cn)：让 AI 助手把「想、做、查」分开的一套轻量角色约定，做成文件型 skill。
+- [chinese-math-forge](https://github.com/asj252/chinese-math-forge)：中文数学教材的写作与审查工具：数学严谨性审查、繁英翻译与习题流水线。
 - [myst-textbook-forge](https://github.com/asj252/myst-textbook-forge)：用 MyST 写教科书的工具：章节编辑、视觉风格与 Python 代码整理。
 
 
