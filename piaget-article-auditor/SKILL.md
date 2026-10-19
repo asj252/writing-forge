@@ -21,15 +21,16 @@ description: >
 An explanatory article succeeds when its intended reader ends up with a *correct, usable mental
 model* of the ideas it teaches. This skill reviews one article against that goal:
 
-1. **Hidden reader assumptions** — what the author takes for granted that the reader may lack.
+1. **Hidden reader assumptions** — what the author takes for granted that the reader may lack,
+   including author-workspace shorthand leaked into the body.
 2. **Explicit prerequisites** — whether each idea is introduced after what it depends on.
 3. **Assimilation or accommodation** — whether each new idea extends what the reader already
    believes (assimilation) or contradicts it (accommodation), and whether the article handles
    that path well.
 4. **Analogies, examples, code and figures** — whether they carry the key structure, and where
    they break.
-5. **Promise and flow** — whether the title and opening promise is delivered, and whether the
-   sections connect.
+5. **Promise and flow** — whether the first screen, the overall promise, and each titled unit
+   deliver what they set up, and whether the sections connect.
 
 The output is a review the author can act on: every finding points to an exact location, says
 why it matters for the target reader, and suggests a concrete fix. It is not a rewrite, a
@@ -40,7 +41,7 @@ fact-check, or a copy-edit.
 | Input | Required | Handling |
 |---|---|---|
 | The article | Yes | Markdown, plain text, HTML, `.ipynb`, or pasted text. Read all of it before judging. For `.ipynb`, markdown cells are the text; code cells are analysed in Step 4. |
-| Intended reader | No | If the user states it, use it. Otherwise, if the article states it (a subtitle such as "for beginners", a line such as "for first-year students"), use that and quote it. Otherwise infer it in Step 1 and state the inference at the top of the report. |
+| Intended reader | No | If the user states it, use it. Otherwise, if the article states it (a subtitle such as "for beginners", a line such as "for first-year students"), use that and quote it. Otherwise infer it in Step 1 and state the inference at the top of the report. Unless the user or the article explicitly states otherwise, assume the reader does not know the author's colleagues, roles, internal codes, task IDs, file names, or workflow. |
 | Publication context | No | Where it will appear (personal blog, course site, docs), series it belongs to, earlier posts it relies on. |
 | Report language | No | Default: the language the user writes in; if unclear, the article's language. |
 
@@ -56,11 +57,17 @@ the report how the main findings would change for the other group.
 Scan once and list, without judging:
 
 - Title, stated goal or promise (title, subtitle, opening paragraph), and article type
-  (popular science, technical blog, teaching handout, tutorial).
-- Sections in order, with their headings.
-- The 1–3 main ideas each section introduces. These are the **concept nodes** used in Step 3.
-  Background stories, history, and opinions are not concept nodes; attach them to the nearest
-  concept.
+  (popular science, technical blog, teaching handout, tutorial, or slide deck/draft — see Edge
+  cases).
+- Sections (or slides/pages) in order, with their headings.
+- **Non-concept blocks**: title and subtitle, opening paragraph (or cover and summary/executive
+  slide or page), status, version, or workflow notes, and conclusion section. These blocks are
+  not concept nodes (do not run Step 3 on them or list them in the concept index), but they
+  **must** be checked in Step 2 (especially category G) and in Step 5's **first-screen** and
+  **unit-promise** checks.
+- The 1–3 main ideas each teaching section introduces. These are the **concept nodes** used in
+  Step 3. Background stories, history, and opinions inside a section are not concept nodes;
+  attach them to the nearest concept.
 - How each idea is presented: definition, claim, example, analogy, derivation, code, figure,
   step-by-step procedure.
 - Any code blocks, commands, figures, or interactive elements.
@@ -78,17 +85,22 @@ dimensions and write one or two descriptive sentences for each:
 | R4 Procedural skills | Steps skipped in calculations, commands, or setup; actions described as "just" or "simply" |
 | R5 Intuitions and visual sense | "Imagine…", "clearly", "as you can see" without a picture or explanation |
 | R6 Code and tools | Languages, libraries, versions, environments, and terminal use assumed |
-| R7 Reading behaviour | Whether the article supports skimming and arriving mid-page from search, signposts its structure, and tells the reader what to remember for later |
+| R7 Reading behaviour | Whether the first screen gives the core answer or takeaway in reader terms (rather than author process, status, or review history), and whether the article supports skimming and arriving mid-page from search, signposts its structure, and tells the reader what to remember for later |
 
 Then compare this **assumed reader** with the **target reader** (stated by the user, or the one
-the article claims to serve, e.g. "a beginner's guide"). The gaps between them drive Step 2.
-If the two match closely, say so; a good article for experts is not a bad article.
+the article claims to serve, e.g. "a beginner's guide"). Unless the user or the article
+explicitly states otherwise, the target reader does not know the author's colleagues, roles,
+internal codes, task IDs, file names, or workflow — even when the target reader is a domain
+expert or project lead; state explicitly in the report's Reader profile whether this baseline
+is violated. The gaps between the assumed reader and the target reader drive Step 2. If the two
+match closely, say so; a good article for experts is not a bad article.
 
 ### Step 2: Find hidden assumptions
 
 A hidden assumption is something the reader must already know or be able to do, which the
-article neither states nor teaches. Search with these categories, and prefer reporting a
-borderline case over missing one:
+article neither states nor teaches — or, in category G, author-workspace information leaked
+into the body that the reader should not have to learn even when the text defines it. Search
+with these categories, and prefer reporting a borderline case over missing one:
 
 | Category | Typical signals | Question to ask |
 |---|---|---|
@@ -98,9 +110,11 @@ borderline case over missing one:
 | D Intuition | "Picture this", "intuitively", geometric or physical claims with no figure | Is this intuitive for *this* reader? (R5) |
 | E Reading strategy | Abrupt change of pace or register; forward references with no marker; important caveats buried | Does the reader know what kind of passage this is and what to keep? (R7) |
 | F Context | Reliance on an earlier post, a course, a company setting, or a particular platform, without a link or summary | Would a reader arriving from search have that context? |
+| G Author workspace leak | In the body (excluding appendices, footnotes, and source/provenance notes), author-internal information the reader does not need: team member or role codes, task/ticket IDs, file names and paths, internal phase codes, version and review history, or internal evidence-grade labels. Report even when defined in the text | Must the reader first learn the author team's internal shorthand to understand this sentence? If it were removed or rewritten in reader terms, what would the reader's understanding lose? (R1, R3, R7) |
 
 Record each assumption with: location, category, the dimension it comes from (R1–R7), what the
-reader needs, and severity (`high`, `medium`, `low`; see Severity).
+reader needs (or, for G, what internal shorthand is leaked), and severity (`high`, `medium`,
+`low`; see Severity).
 
 ### Step 3: Check each concept node
 
@@ -173,10 +187,20 @@ Reproducibility problems in `procedural` items are also hidden assumptions of ca
 
 ### Step 5: Promise and flow
 
-- **Promise**: does the article deliver what the title and opening promise, for the target
-  reader? Name any promised item that is missing or only gestured at.
+- **First screen**: do the title and opening paragraph (or the cover and first slide/page) give,
+  in the target reader's own words, the core answer or what the reader will get from reading?
+  If the first screen mainly talks about the author's process, project status, or review
+  history instead, rate the problem at least `medium`.
+- **Promise**: does the article as a whole deliver what the title and opening promise, for the
+  target reader? Name any promised item that is missing or only gestured at.
+- **Unit promises**: does every titled unit (section, slide/page, or titled card/box) answer the
+  question or deliver the point its own heading sets up — especially when the heading is a
+  question? When a unit does not answer its own heading, rate the severity by what the target
+  reader loses at that point.
 - **Links between sections**: does each section's result get picked up where it is used? Are
-  forward references marked ("we come back to this in…")?
+  forward references marked ("we come back to this in…")? For slide decks or page-by-page
+  drafts only, also check each adjacent pair of slides for a one-sentence transition (see Edge
+  cases; do not apply to regular articles).
 - **Active moments**: accommodation needs the reader to *do* something. For each concept on the
   accommodation path, check whether some prediction, question, try-it step, or exercise makes
   the reader confront *that concept's* misconception. Distinguish two problems: no activity at
@@ -190,7 +214,8 @@ Reproducibility problems in `procedural` items are also hidden assumptions of ca
 
 Use the structure in [references/report-template.md](references/report-template.md). Rules:
 
-1. **Locate everything.** Each finding names the section heading and quotes a short phrase
+1. **Locate everything.** Each finding names the section heading (or non-concept block / slide
+   id, such as "Opening", "Cover", or "Navigation bar") and quotes a short phrase
    (at most one sentence) from the article so the author can find it. For a code block or
    figure, quote its first line or caption, or name it by position ("the second code block").
    When you cite the article, quotation marks mean its exact words (an ellipsis for a cut is
@@ -207,15 +232,18 @@ Use the structure in [references/report-template.md](references/report-template.
 3. **Severity gating.** Concept nodes that pass appear only as one line in the concept index.
    Only `high` and `medium` findings get a full entry; `low` findings go into a short list at
    the end, one line each with a location.
-4. **One problem, one entry.** When the same gap shows up in a concept check and as an
-   assumption or a code item (an undefined term that is also a missing prerequisite, an
-   unreproducible block that is also a missing step), write one full entry where the reader is
-   hurt most and name its id in the other place ("see A01") instead of opening a second entry.
-   Separate entries are right only when the problems need different fixes.
+4. **One problem, one entry.** When the same gap shows up in more than one check — across a
+   concept check, an assumption (including category G), a code/media item, or a
+   promise-and-flow check (such as first screen or unit promise) — write one full entry where
+   the reader is hurt most and name its id in the other place ("see A01" or "see P01") instead
+   of opening a second entry. Separate entries are right only when the problems need different
+   fixes. Likewise, when the same kind of category G leak (such as a recurring internal label
+   or role code) repeats across sections, group it into one `A` entry ordered by the earliest
+   place (per rule 1) rather than opening an entry per occurrence.
 5. **Write the whole report in the report language.** Translate every heading, every bold
    field label, and all prose (in a Chinese report, for example, Verdict → 结论, Where → 位置,
    Fix → 改法, What works → 做得好的地方). Keep in English only the fixed vocabulary that makes
-   reports comparable across languages: ids (`C01`, `R1`–`R7`, categories `A`–`F`), results
+   reports comparable across languages: ids (`C01`, `R1`–`R7`, categories `A`–`G`), results
    (`pass`, `warn`, `fail`, `not audited`), severities (`high`, `medium`, `low`), gaps (`none`,
    `small`, `medium`, `large`), paths (`assimilation`, `accommodation`), and roles (`bridging`,
    `visualisation`, `verification`, `exploratory`, `procedural`, `decorative`, `missing`).
@@ -235,9 +263,16 @@ Use the structure in [references/report-template.md](references/report-template.
 10. **Note what works.** One to three short points on what the article does well, so the author
    knows what to keep.
 11. **Do not invent problems.** If the article suits its target reader, say so. Do not count an
-   expert article's expertise against it when the target reader is an expert.
+   expert article's expertise against it when the target reader is an expert (internal
+   author-workspace shorthand in category G is not domain expertise — report it unless the
+   user or the article explicitly states that the reader shares that workspace).
 12. **Stay in scope.** Flag factual errors only when they would plant a wrong mental model, and
-   label them as outside the main audit. Do not copy-edit.
+   label them as outside the main audit. Do not copy-edit. **Exception (category G):** putting
+   author-internal information into the body is not a copy-editing issue or harmless
+   transparency, but a reader-model problem that must be reported (category G). Methodological
+   or provenance transparency the reader needs should be rewritten in plain reader language
+   (for example, "preliminary description, not formally tested" instead of an internal label)
+   or moved to footnotes or an appendix.
 
 Save the report as a Markdown file when the environment allows (default name
 `<article-name>.piaget-review.md` next to the article, or where the user asks), and give a
@@ -258,10 +293,15 @@ statements are correct:
 - A concept whose common misconception is never challenged, so the reader keeps the old model
   while later parts of the article rely on the new one, is `high` even when the definition or
   formula given is correct.
+- When the reader must know or decode an internal author code, role letter, or internal
+  evidence-grade label to understand a conclusion (even if defined earlier in the text), rate
+  it `high`. When the opening or conclusion section/slide spends its main space on the author's
+  workflow, status, or review history rather than the answer, rate it `medium` (or `high` if the
+  promised answer is not delivered elsewhere in the article).
 - "Recoverable on rereading" counts only when the article contains what the reader needs. If
   they would have to find it elsewhere (another course, a search), it is not recoverable here.
-- Do not raise or lower a severity because of a finding's prefix, category, or role (a
-  `missing` figure is judged by what the reader loses, like any other finding).
+- Do not raise or lower a severity merely because of a finding's prefix, category letter, or
+  media role (a `missing` figure is judged by what the reader loses, like any other finding).
 
 ## Edge cases
 
@@ -272,6 +312,7 @@ statements are correct:
 | Part of a series | A reference to an earlier post is a category F assumption only when understanding depends on it and the article gives neither an adequate summary nor a link. If the article tells readers to read the earlier post first, judge against a reader who has, and note the dependency once. If the user provides the earlier posts or says readers will have read them, treat their content as known. |
 | Translated article, or terms in two languages | Check that each technical term is used consistently and that terms which differ between language variants are explained. |
 | Tutorial that is mostly commands | Concepts may be few; focus Step 4 on `procedural` items and Step 2 category C, and still check the one or two ideas the tutorial claims to teach. |
+| Slide deck or page-by-page draft (including Markdown or Mermaid slide outlines) | Audit in the slide order the reader sees and by the on-screen text of each slide (when a slide is drafted as a Mermaid layout or table, audit its on-screen labels as slide body rather than treating the whole slide layout as a single Step 4 figure; figures inside a slide are still checked in Step 4). Treat the cover, navigation bar, slide titles, and bottom conclusion/takeaway bars as body text: the cover and first slide are the first screen (Step 5), each slide or titled card is a unit for unit-promise checks (Step 5), and navigation bars and slide titles are subject to category G just like any other body text. In Step 5 (under **Links between sections**, for slide decks/drafts only — do not apply to regular articles), check each adjacent pair of slides in order: can one sentence transition from the previous slide to the next? Where a transition sentence cannot be written, record a flow (`P`) finding that names the two adjacent slides where it stalls and states which step is missing (missing premise, skipped conclusion, or inverted order). Off-screen speaker notes and end-of-deck provenance/appendix slides count as footnotes/appendices for category G. |
 | Opinion piece, news, or announcement with nothing to teach | Say the framework does not apply, and stop or offer a lighter flow review if the user wants one. |
-| Article targets experts | Audit against experts; report only what would trip an expert or a newcomer to this specific sub-topic. |
+| Article targets experts | Audit against experts; report only what would trip an expert or a newcomer to this specific sub-topic (category G author-workspace leaks still apply unless the user or the article explicitly states that the reader shares that workspace). |
 | User supplies a revised version | Audit the new version on its own, then add a short "changes since the previous review" section listing which earlier findings are resolved, partly resolved, or still open. |

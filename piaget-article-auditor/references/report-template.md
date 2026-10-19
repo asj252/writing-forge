@@ -8,7 +8,7 @@ comparable across languages. Omit a section only where the template says it is o
 Every finding has exactly one severity (`high`, `medium`, `low`; see Severity in `SKILL.md`).
 `low` findings get one line under Low-priority notes. `high` and `medium` findings get a full
 entry: `C`, `A` and `M` entries under Findings; `P` entries under Promise and flow, after its
-four one-line checks. Concept results and severities go together: `fail` is `high` or
+six one-line checks. Concept results and severities go together: `fail` is `high` or
 `medium`, `warn` is `medium` or `low`.
 
 When one problem is already written up as a full entry elsewhere (`SKILL.md` Step 6 rule 4),
@@ -49,6 +49,8 @@ full-entry requirement for that finding.
 | R6 Code and tools | … (write "not applicable" when there is no code) | … |
 | R7 Reading behaviour | … | … |
 
+- **Author-workspace independence**: <respected | violated: assumes the reader knows … (see A0n)>
+
 ## Concept index
 
 | Id | Section | Concept | Path | Result | Severity |
@@ -67,9 +69,9 @@ full-entry requirement for that finding.
 ### A01 <assumption> — medium
 
 - **Where**: <heading> — "<short quote>"
-- **Category / dimension**: <A–F> / <R1–R7>
-- **What the reader will likely do**: <what the target reader lacks here, and what happens>
-- **Fix**: <define here, link, add a step, or narrow the target reader>
+- **Category / dimension**: <A–G> / <R1–R7>
+- **What the reader will likely do**: <what the target reader lacks here (or, for G, what internal shorthand is pushed onto them), and what happens>
+- **Fix**: <define here, link, add a step, or narrow the target reader; for G: delete, rewrite in plain reader language, or move to footnotes/appendix>
 
 ### M01 <code block, command, figure, or media (or a missing one)> — <role, e.g. procedural or missing>, medium
 
@@ -80,11 +82,13 @@ full-entry requirement for that finding.
 
 ## Promise and flow
 
-One line each for the four checks below; any problem at `high` or `medium` also gets a full
+One line each for the six checks below; any problem at `high` or `medium` also gets a full
 `P` entry after them. `P0n` stands for the actual id: `P` findings are numbered in reading
 order like every other prefix, not by which check found them.
 
+- **First screen**: <gives answer/takeaway in reader terms | process/status first: see P0n>
 - **Promise**: <delivered | partly delivered: see P0n>
+- **Unit promises**: <all units answer their headings | see P0n>
 - **Links between sections**: <no issues | see P0n>
 - **Active moments**: <present at … | missing for C03: see P0n>
 - **Ending**: <consolidates | stops: see P0n>
