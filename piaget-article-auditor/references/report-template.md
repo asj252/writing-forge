@@ -20,7 +20,7 @@ full-entry requirement for that finding.
 ```markdown
 # Piaget review: <article title>
 
-- **Article**: <file name or link>; <article type>; about <N> words
+- **Article**: <file name or link>; <article type>; about <N> words (or about <N> characters / 字 for Chinese/CJK articles, counting non-whitespace characters)
 - **Target reader**: <stated by the user | stated in the article: "<quote>" | inferred: one sentence, with the evidence>
 - **Verdict**: <one sentence, including "N concepts: a pass, b warn, c fail" (and "d not audited" if any)>
 - **Worst issue**: <one sentence naming one high or medium finding id | "none", with why the audited part works>
